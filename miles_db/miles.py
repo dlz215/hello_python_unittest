@@ -1,6 +1,11 @@
 import sqlite3
 
-db_url = 'miles.db'   # Assumes the table miles have already been created.
+db_url = 'miles.db'
+
+with sqlite3.connect(db_url) as conn:
+    conn.execute('CREATE TABLE IF NOT EXISTS miles (vehicle text, total_miles float)')
+conn.close()
+
 
 """
 Before running this code, ensure that miles.db exists and contains the miles table
@@ -31,10 +36,10 @@ def add_miles(vehicle, new_miles):
 
     with sqlite3.connect(db_url) as conn:
         # Attempt to update miles
-        rows_mod = conn.execute('UPDATE MILES SET total_miles = total_miles + ? WHERE vehicle = ?', (new_miles, vehicle))
+        rows_mod = conn.execute('UPDATE miles SET total_miles = total_miles + ? WHERE vehicle = ?', (new_miles, vehicle))
         if rows_mod.rowcount == 0:
             # If update is not made, vehicle is not yet in DB. Insert new vehicle
-            conn.execute('INSERT INTO MILES VALUES (?, ?)', (vehicle, new_miles))
+            conn.execute('INSERT INTO miles VALUES (?, ?)', (vehicle, new_miles))
     conn.close()
 
 

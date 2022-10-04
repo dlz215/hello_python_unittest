@@ -88,7 +88,7 @@ class TestMileageDB(TestCase):
         cursor = conn.cursor()
         all_data = cursor.execute('SELECT * FROM MILES').fetchall()
 
-        # Same rows in DB as entries in expected dictionary
+        # Same number of rows in DB as entries in expected dictionary
         self.assertEqual(len(expected.keys()), len(all_data))
 
         for row in all_data:
